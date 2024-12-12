@@ -1,0 +1,223 @@
+package com.employeeManagement;
+
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.awt.event.ActionEvent;
+import javax.swing.SpringLayout;
+import javax.swing.border.EmptyBorder;
+
+
+public class AddEmployee extends JFrame {
+
+    private JPanel contentPane;
+    private JTextField textFieldId;
+    private JTextField textFieldName;
+    private JTextField textFieldSalary;
+    private JTextField textFieldEmail;
+    private JTextField textFieldPhone;
+    private JTextField textFieldAddress;
+
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    AddEmployee frame = new AddEmployee();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * Create the frame.
+     */
+    public AddEmployee() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 600, 600);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        
+        SpringLayout sl_contentPane = new SpringLayout();
+        contentPane.setLayout(sl_contentPane);
+
+        // Title Label
+        JLabel lblTitle = new JLabel("Add Employee");
+        lblTitle.setFont(new Font("Segoe UI Historic", Font.BOLD, 30));
+        sl_contentPane.putConstraint(SpringLayout.WEST, lblTitle, 132, SpringLayout.WEST, contentPane);
+        sl_contentPane.putConstraint(SpringLayout.EAST, lblTitle, -132, SpringLayout.EAST, contentPane);
+        lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        contentPane.add(lblTitle);
+
+        // ID Label
+        JLabel lblId = new JLabel("Employee ID:");
+        lblId.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        sl_contentPane.putConstraint(SpringLayout.NORTH, lblId, 30, SpringLayout.SOUTH, lblTitle);
+        sl_contentPane.putConstraint(SpringLayout.WEST, lblId, 50, SpringLayout.WEST, contentPane);
+        contentPane.add(lblId);
+
+        // ID Input Field
+        textFieldId = new JTextField();
+        sl_contentPane.putConstraint(SpringLayout.NORTH, textFieldId, -2, SpringLayout.NORTH, lblId);
+        sl_contentPane.putConstraint(SpringLayout.WEST, textFieldId, 10, SpringLayout.EAST, lblId);
+        sl_contentPane.putConstraint(SpringLayout.EAST, textFieldId, -50, SpringLayout.EAST, contentPane);
+        contentPane.add(textFieldId);
+        textFieldId.setColumns(20);
+
+        // Name Label
+        JLabel lblName = new JLabel("Name:");
+        lblName.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        sl_contentPane.putConstraint(SpringLayout.NORTH, lblName, 30, SpringLayout.SOUTH, lblId);
+        sl_contentPane.putConstraint(SpringLayout.WEST, lblName, 50, SpringLayout.WEST, contentPane);
+        contentPane.add(lblName);
+
+        // Name Input Field
+        textFieldName = new JTextField();
+        sl_contentPane.putConstraint(SpringLayout.NORTH, textFieldName, -2, SpringLayout.NORTH, lblName);
+        sl_contentPane.putConstraint(SpringLayout.WEST, textFieldName, 10, SpringLayout.EAST, lblName);
+        sl_contentPane.putConstraint(SpringLayout.EAST, textFieldName, -50, SpringLayout.EAST, contentPane);
+        contentPane.add(textFieldName);
+        textFieldName.setColumns(20);
+
+        // Salary Label
+        JLabel lblSalary = new JLabel("Salary:");
+        lblSalary.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        sl_contentPane.putConstraint(SpringLayout.NORTH, lblSalary, 30, SpringLayout.SOUTH, lblName);
+        sl_contentPane.putConstraint(SpringLayout.WEST, lblSalary, 50, SpringLayout.WEST, contentPane);
+        contentPane.add(lblSalary);
+
+        // Salary Input Field
+        textFieldSalary = new JTextField();
+        sl_contentPane.putConstraint(SpringLayout.NORTH, textFieldSalary, -2, SpringLayout.NORTH, lblSalary);
+        sl_contentPane.putConstraint(SpringLayout.WEST, textFieldSalary, 10, SpringLayout.EAST, lblSalary);
+        sl_contentPane.putConstraint(SpringLayout.EAST, textFieldSalary, -50, SpringLayout.EAST, contentPane);
+        contentPane.add(textFieldSalary);
+        textFieldSalary.setColumns(20);
+
+        // Email Label
+        JLabel lblEmail = new JLabel("Email:");
+        lblEmail.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        sl_contentPane.putConstraint(SpringLayout.NORTH, lblEmail, 30, SpringLayout.SOUTH, lblSalary);
+        sl_contentPane.putConstraint(SpringLayout.WEST, lblEmail, 50, SpringLayout.WEST, contentPane);
+        contentPane.add(lblEmail);
+
+        // Email Input Field
+        textFieldEmail = new JTextField();
+        sl_contentPane.putConstraint(SpringLayout.NORTH, textFieldEmail, -2, SpringLayout.NORTH, lblEmail);
+        sl_contentPane.putConstraint(SpringLayout.WEST, textFieldEmail, 10, SpringLayout.EAST, lblEmail);
+        sl_contentPane.putConstraint(SpringLayout.EAST, textFieldEmail, -50, SpringLayout.EAST, contentPane);
+        contentPane.add(textFieldEmail);
+        textFieldEmail.setColumns(20);
+
+        // Phone Label
+        JLabel lblPhone = new JLabel("Phone:");
+        lblPhone.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        sl_contentPane.putConstraint(SpringLayout.NORTH, lblPhone, 30, SpringLayout.SOUTH, lblEmail);
+        sl_contentPane.putConstraint(SpringLayout.WEST, lblPhone, 50, SpringLayout.WEST, contentPane);
+        contentPane.add(lblPhone);
+
+        // Phone Input Field
+        textFieldPhone = new JTextField();
+        sl_contentPane.putConstraint(SpringLayout.NORTH, textFieldPhone, -2, SpringLayout.NORTH, lblPhone);
+        sl_contentPane.putConstraint(SpringLayout.WEST, textFieldPhone, 10, SpringLayout.EAST, lblPhone);
+        sl_contentPane.putConstraint(SpringLayout.EAST, textFieldPhone, -50, SpringLayout.EAST, contentPane);
+        contentPane.add(textFieldPhone);
+        textFieldPhone.setColumns(20);
+
+        // Address Label
+        JLabel lblAddress = new JLabel("Address:");
+        lblAddress.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        sl_contentPane.putConstraint(SpringLayout.NORTH, lblAddress, 30, SpringLayout.SOUTH, lblPhone);
+        sl_contentPane.putConstraint(SpringLayout.WEST, lblAddress, 50, SpringLayout.WEST, contentPane);
+        contentPane.add(lblAddress);
+
+        // Address Input Field
+        textFieldAddress = new JTextField();
+        sl_contentPane.putConstraint(SpringLayout.NORTH, textFieldAddress, -2, SpringLayout.NORTH, lblAddress);
+        sl_contentPane.putConstraint(SpringLayout.WEST, textFieldAddress, 10, SpringLayout.EAST, lblAddress);
+        sl_contentPane.putConstraint(SpringLayout.EAST, textFieldAddress, -50, SpringLayout.EAST, contentPane);
+        contentPane.add(textFieldAddress);
+        textFieldAddress.setColumns(20);
+
+        // Add Button
+        JButton btnAdd = new JButton("Add Employee");
+        sl_contentPane.putConstraint(SpringLayout.NORTH, btnAdd, 30, SpringLayout.SOUTH, textFieldAddress);
+        sl_contentPane.putConstraint(SpringLayout.HORIZONTAL_CENTER, btnAdd, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
+        contentPane.add(btnAdd);
+
+        // Add Button ActionListener
+        btnAdd.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // Validate input fields
+                String id = textFieldId.getText();
+                String name = textFieldName.getText();
+                String salary = textFieldSalary.getText();
+                String email = textFieldEmail.getText();
+                String phone = textFieldPhone.getText();
+                String address = textFieldAddress.getText();
+
+                if (id.isEmpty() || name.isEmpty() || salary.isEmpty() || email.isEmpty() || phone.isEmpty() || address.isEmpty()) {
+                    JOptionPane.showMessageDialog(null, "Please fill all fields.", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+                // Insert data into database
+                insertEmployeeData(id, name, salary, email, phone, address);
+            }
+        });
+    }
+
+ // Updated insert method
+    private void insertEmployeeData() {
+        String name = textFieldName.getText();
+        String salary = textFieldSalary.getText();
+        String email = textFieldEmail.getText();
+        String phone = textFieldPhone.getText();
+        String address = textFieldAddress.getText();
+
+        String sql = "INSERT INTO employee (name, salary, email, phone, address) VALUES (?, ?, ?, ?, ?)"; // Removed emp_id
+
+        try (Connection con = DriverManager.getConnection(url, username, password)) {
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, name);
+            pstmt.setString(2, salary);
+            pstmt.setString(3, email);
+            pstmt.setString(4, phone);
+            pstmt.setString(5, address);
+
+            int rowsInserted = pstmt.executeUpdate();
+            if (rowsInserted > 0) {
+                JOptionPane.showMessageDialog(this, "Employee added successfully.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "An error occurred while adding the employee.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+
+    private void clearFields() {
+        textFieldId.setText("");
+        textFieldName.setText("");
+        textFieldSalary.setText("");
+        textFieldEmail.setText("");
+        textFieldPhone.setText("");
+        textFieldAddress.setText("");
+    }
+}

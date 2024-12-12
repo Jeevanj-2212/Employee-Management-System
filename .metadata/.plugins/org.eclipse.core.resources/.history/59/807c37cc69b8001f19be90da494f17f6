@@ -1,0 +1,74 @@
+package com.employeeManagement;
+
+import java.awt.EventQueue;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import javax.swing.SpringLayout;
+import javax.swing.JLabel;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import javax.swing.JTable;
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JScrollPane;
+import java.awt.Color;
+
+public class ViewEmployee extends JFrame {
+
+    private JPanel contentPane;
+    private JTable table;
+
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    ViewEmployee frame = new ViewEmployee();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * Create the frame.
+     */
+    public ViewEmployee() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 600, 400);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        SpringLayout sl_contentPane = new SpringLayout();
+        contentPane.setLayout(sl_contentPane);
+
+        JLabel lblNewLabel = new JLabel("View Employee");
+        sl_contentPane.putConstraint(SpringLayout.NORTH, lblNewLabel, 10, SpringLayout.NORTH, contentPane);
+        sl_contentPane.putConstraint(SpringLayout.WEST, lblNewLabel, 150, SpringLayout.WEST, contentPane);
+        sl_contentPane.putConstraint(SpringLayout.EAST, lblNewLabel, -150, SpringLayout.EAST, contentPane);
+        lblNewLabel.setFont(new Font("Segoe UI Historic", Font.BOLD, 30));
+        lblNewLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        contentPane.add(lblNewLabel);
+
+        // Define column names
+        String[] columnNames = { "Employee ID", "Employee Name", "Salary" };
+
+        // Initialize table with no data and defined columns
+        DefaultTableModel model = new DefaultTableModel(null, columnNames);
+        table = new JTable(model);
+
+        // Add a scroll pane to the table
+        JScrollPane scrollPane = new JScrollPane(table);
+        sl_contentPane.putConstraint(SpringLayout.NORTH, scrollPane, 20, SpringLayout.SOUTH, lblNewLabel);
+        sl_contentPane.putConstraint(SpringLayout.WEST, scrollPane, 20, SpringLayout.WEST, contentPane);
+        sl_contentPane.putConstraint(SpringLayout.SOUTH, scrollPane, -20, SpringLayout.SOUTH, contentPane);
+        sl_contentPane.putConstraint(SpringLayout.EAST, scrollPane, -20, SpringLayout.EAST, contentPane);
+
+        contentPane.add(scrollPane);
+    }
+}

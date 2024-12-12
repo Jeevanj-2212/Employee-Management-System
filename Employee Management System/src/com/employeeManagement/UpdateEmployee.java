@@ -1,0 +1,304 @@
+package com.employeeManagement;
+
+import java.awt.EventQueue;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.SpringLayout;
+import javax.swing.border.EmptyBorder;
+import java.awt.Font;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+public class UpdateEmployee extends JFrame {
+
+    private JPanel contentPane;
+    private JTextField textFieldEmployeeId;
+    private JTextField textFieldName;
+    private JTextField textFieldSalary;
+    private JTextField textFieldEmail;
+    private JTextField textFieldPhone;
+    private JTextField textFieldAddress;
+    private JCheckBox chkName, chkSalary, chkEmail, chkPhone, chkAddress;
+
+    /**
+     * Launch the application.
+     */
+    public static void main(String[] args) {
+        EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                try {
+                    UpdateEmployee frame = new UpdateEmployee();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * Create the frame.
+     */
+    public UpdateEmployee() {
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setBounds(100, 100, 600, 500);
+        contentPane = new JPanel();
+        contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        setContentPane(contentPane);
+        SpringLayout layout = new SpringLayout();
+        contentPane.setLayout(layout);
+
+        // Title Label
+        JLabel lblTitle = new JLabel("Update Employee Details");
+        lblTitle.setFont(new Font("Segoe UI Historic", Font.BOLD, 20));
+        lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
+        layout.putConstraint(SpringLayout.NORTH, lblTitle, 10, SpringLayout.NORTH, contentPane);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, lblTitle, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
+        contentPane.add(lblTitle);
+
+        // Employee ID Label
+        JLabel lblEmployeeId = new JLabel("Enter Employee ID:");
+        lblEmployeeId.setFont(new Font("Segoe UI", Font.PLAIN, 14));
+        layout.putConstraint(SpringLayout.NORTH, lblEmployeeId, 20, SpringLayout.SOUTH, lblTitle);
+        layout.putConstraint(SpringLayout.WEST, lblEmployeeId, 20, SpringLayout.WEST, contentPane);
+        contentPane.add(lblEmployeeId);
+
+        // Employee ID Input Field
+        textFieldEmployeeId = new JTextField();
+        layout.putConstraint(SpringLayout.NORTH, textFieldEmployeeId, -2, SpringLayout.NORTH, lblEmployeeId);
+        layout.putConstraint(SpringLayout.WEST, textFieldEmployeeId, 10, SpringLayout.EAST, lblEmployeeId);
+        layout.putConstraint(SpringLayout.EAST, textFieldEmployeeId, -100, SpringLayout.EAST, contentPane);
+        contentPane.add(textFieldEmployeeId);
+        textFieldEmployeeId.setColumns(20);
+
+        // Submit Button
+        JButton btnSubmit = new JButton("Submit");
+        layout.putConstraint(SpringLayout.NORTH, btnSubmit, -2, SpringLayout.NORTH, textFieldEmployeeId);
+        layout.putConstraint(SpringLayout.WEST, btnSubmit, 10, SpringLayout.EAST, textFieldEmployeeId);
+        contentPane.add(btnSubmit);
+
+        // Home Button (Top Right Corner)
+        JButton btnHome = new JButton("Home");
+        layout.putConstraint(SpringLayout.NORTH, btnHome, 10, SpringLayout.NORTH, contentPane);
+        layout.putConstraint(SpringLayout.EAST, btnHome, -10, SpringLayout.EAST, contentPane);
+        contentPane.add(btnHome);
+
+        // Action for Home Button (e.g., closing current window or navigating to home)
+        btnHome.addActionListener(e -> {
+            dispose(); // Close the current frame (you can replace this with home navigation logic)
+            new Home().setVisible(true);
+        });
+
+        // Name
+        chkName = new JCheckBox("Name");
+        layout.putConstraint(SpringLayout.NORTH, chkName, 20, SpringLayout.SOUTH, textFieldEmployeeId);
+        layout.putConstraint(SpringLayout.WEST, chkName, 20, SpringLayout.WEST, contentPane);
+        contentPane.add(chkName);
+
+        textFieldName = new JTextField();
+        textFieldName.setEditable(false);
+        layout.putConstraint(SpringLayout.NORTH, textFieldName, -2, SpringLayout.NORTH, chkName);
+        layout.putConstraint(SpringLayout.WEST, textFieldName, 10, SpringLayout.EAST, chkName);
+        layout.putConstraint(SpringLayout.EAST, textFieldName, -20, SpringLayout.EAST, contentPane);
+        contentPane.add(textFieldName);
+        textFieldName.setColumns(20);
+
+        // Salary
+        chkSalary = new JCheckBox("Salary");
+        layout.putConstraint(SpringLayout.NORTH, chkSalary, 20, SpringLayout.SOUTH, chkName);
+        layout.putConstraint(SpringLayout.WEST, chkSalary, 20, SpringLayout.WEST, contentPane);
+        contentPane.add(chkSalary);
+
+        textFieldSalary = new JTextField();
+        textFieldSalary.setEditable(false);
+        layout.putConstraint(SpringLayout.NORTH, textFieldSalary, -2, SpringLayout.NORTH, chkSalary);
+        layout.putConstraint(SpringLayout.WEST, textFieldSalary, 10, SpringLayout.EAST, chkSalary);
+        layout.putConstraint(SpringLayout.EAST, textFieldSalary, -20, SpringLayout.EAST, contentPane);
+        contentPane.add(textFieldSalary);
+        textFieldSalary.setColumns(20);
+
+        // Email
+        chkEmail = new JCheckBox("Email");
+        layout.putConstraint(SpringLayout.NORTH, chkEmail, 20, SpringLayout.SOUTH, chkSalary);
+        layout.putConstraint(SpringLayout.WEST, chkEmail, 20, SpringLayout.WEST, contentPane);
+        contentPane.add(chkEmail);
+
+        textFieldEmail = new JTextField();
+        textFieldEmail.setEditable(false);
+        layout.putConstraint(SpringLayout.NORTH, textFieldEmail, -2, SpringLayout.NORTH, chkEmail);
+        layout.putConstraint(SpringLayout.WEST, textFieldEmail, 10, SpringLayout.EAST, chkEmail);
+        layout.putConstraint(SpringLayout.EAST, textFieldEmail, -20, SpringLayout.EAST, contentPane);
+        contentPane.add(textFieldEmail);
+        textFieldEmail.setColumns(20);
+
+        // Phone
+        chkPhone = new JCheckBox("Phone");
+        layout.putConstraint(SpringLayout.NORTH, chkPhone, 20, SpringLayout.SOUTH, chkEmail);
+        layout.putConstraint(SpringLayout.WEST, chkPhone, 20, SpringLayout.WEST, contentPane);
+        contentPane.add(chkPhone);
+
+        textFieldPhone = new JTextField();
+        textFieldPhone.setEditable(false);
+        layout.putConstraint(SpringLayout.NORTH, textFieldPhone, -2, SpringLayout.NORTH, chkPhone);
+        layout.putConstraint(SpringLayout.WEST, textFieldPhone, 10, SpringLayout.EAST, chkPhone);
+        layout.putConstraint(SpringLayout.EAST, textFieldPhone, -20, SpringLayout.EAST, contentPane);
+        contentPane.add(textFieldPhone);
+        textFieldPhone.setColumns(20);
+
+        // Address
+        chkAddress = new JCheckBox("Address");
+        layout.putConstraint(SpringLayout.NORTH, chkAddress, 20, SpringLayout.SOUTH, chkPhone);
+        layout.putConstraint(SpringLayout.WEST, chkAddress, 20, SpringLayout.WEST, contentPane);
+        contentPane.add(chkAddress);
+
+        textFieldAddress = new JTextField();
+        textFieldAddress.setEditable(false);
+        layout.putConstraint(SpringLayout.NORTH, textFieldAddress, -2, SpringLayout.NORTH, chkAddress);
+        layout.putConstraint(SpringLayout.WEST, textFieldAddress, 10, SpringLayout.EAST, chkAddress);
+        layout.putConstraint(SpringLayout.EAST, textFieldAddress, -20, SpringLayout.EAST, contentPane);
+        contentPane.add(textFieldAddress);
+        textFieldAddress.setColumns(20);
+
+        // Update Button
+        JButton btnUpdate = new JButton("Update");
+        layout.putConstraint(SpringLayout.NORTH, btnUpdate, 20, SpringLayout.SOUTH, chkAddress);
+        layout.putConstraint(SpringLayout.HORIZONTAL_CENTER, btnUpdate, 0, SpringLayout.HORIZONTAL_CENTER, contentPane);
+        contentPane.add(btnUpdate);
+
+        // Checkbox Listeners
+        chkName.addActionListener(e -> textFieldName.setEditable(chkName.isSelected()));
+        chkSalary.addActionListener(e -> textFieldSalary.setEditable(chkSalary.isSelected()));
+        chkEmail.addActionListener(e -> textFieldEmail.setEditable(chkEmail.isSelected()));
+        chkPhone.addActionListener(e -> textFieldPhone.setEditable(chkPhone.isSelected()));
+        chkAddress.addActionListener(e -> textFieldAddress.setEditable(chkAddress.isSelected()));
+
+        // Submit Button Action - Fetch employee details from DB
+        btnSubmit.addActionListener(e -> {
+            String employeeId = textFieldEmployeeId.getText();
+            if (employeeId.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter an Employee ID.", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                fetchEmployeeDetails(employeeId);
+            }
+        });
+
+        // Update Button Action - Update employee details in DB
+        btnUpdate.addActionListener(e -> {
+            String employeeId = textFieldEmployeeId.getText();
+            if (employeeId.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter a valid Employee ID.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            updateEmployeeDetails(employeeId);
+        });
+    }
+    
+
+    // Fetch employee details from the database
+    private void fetchEmployeeDetails(String employeeId) {
+        String url = "jdbc:mysql://localhost:3306/jdbcproject";
+        String username = "root";
+        String password = "22122002";
+        String sql = "SELECT name, salary, email, phone, address FROM employee WHERE emp_id = ?";
+
+        try (Connection con = DriverManager.getConnection(url, username, password)) {
+            PreparedStatement pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, employeeId);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                textFieldName.setText(rs.getString("name"));
+                textFieldSalary.setText(rs.getString("salary"));
+                textFieldEmail.setText(rs.getString("email"));
+                textFieldPhone.setText(rs.getString("phone"));
+                textFieldAddress.setText(rs.getString("address"));
+            } else {
+                JOptionPane.showMessageDialog(this, "No employee found with the given ID.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "An error occurred while fetching employee details.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    // Update employee details in the database
+    private void updateEmployeeDetails(String employeeId) {
+        String url = "jdbc:mysql://localhost:3306/jdbcproject";
+        String username = "root";
+        String password = "22122002";
+        
+        // Prepare the update query
+        String sqlUpdate = "UPDATE employee SET ";
+        boolean first = true;
+
+        if (chkName.isSelected()) {
+            sqlUpdate += "name = ?, ";
+            first = false;
+        }
+        if (chkSalary.isSelected()) {
+            sqlUpdate += "salary = ?, ";
+            first = false;
+        }
+        if (chkEmail.isSelected()) {
+            sqlUpdate += "email = ?, ";
+            first = false;
+        }
+        if (chkPhone.isSelected()) {
+            sqlUpdate += "phone = ?, ";
+            first = false;
+        }
+        if (chkAddress.isSelected()) {
+            sqlUpdate += "address = ?, ";
+            first = false;
+        }
+
+        // Remove the trailing comma and space
+        if (!first) {
+            sqlUpdate = sqlUpdate.substring(0, sqlUpdate.length() - 2);
+        }
+        sqlUpdate += " WHERE emp_id = ?";
+
+        try (Connection con = DriverManager.getConnection(url, username, password)) {
+            PreparedStatement pstmt = con.prepareStatement(sqlUpdate);
+
+            int index = 1;
+            if (chkName.isSelected()) {
+                pstmt.setString(index++, textFieldName.getText());
+            }
+            if (chkSalary.isSelected()) {
+                pstmt.setString(index++, textFieldSalary.getText());
+            }
+            if (chkEmail.isSelected()) {
+                pstmt.setString(index++, textFieldEmail.getText());
+            }
+            if (chkPhone.isSelected()) {
+                pstmt.setString(index++, textFieldPhone.getText());
+            }
+            if (chkAddress.isSelected()) {
+                pstmt.setString(index++, textFieldAddress.getText());
+            }
+
+            pstmt.setString(index, employeeId);
+
+            int rowsAffected = pstmt.executeUpdate();
+            if (rowsAffected > 0) {
+                JOptionPane.showMessageDialog(this, "Employee details updated successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "Failed to update employee details.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "An error occurred while updating employee details.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+}

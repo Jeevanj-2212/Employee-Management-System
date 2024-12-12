@@ -1,0 +1,114 @@
+package com.employeeManagement;
+
+import java.awt.EventQueue;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import java.awt.BorderLayout;
+import javax.swing.BoxLayout;
+import javax.swing.JLabel;
+import javax.swing.SpringLayout;
+import javax.swing.SwingConstants;
+import java.awt.Font;
+import javax.swing.JButton;
+
+public class Home extends JFrame {
+
+	private JPanel contentPane;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Home frame = new Home();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Home() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 550, 330);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		SpringLayout sl_contentPane = new SpringLayout();
+		contentPane.setLayout(sl_contentPane);
+		
+		JLabel label = new JLabel("Welcome to Employee Management System");
+		label.setFont(new Font("Segoe UI Historic", Font.BOLD, 30));
+		label.setVerticalAlignment(SwingConstants.TOP);
+		label.setHorizontalAlignment(SwingConstants.CENTER);
+		sl_contentPane.putConstraint(SpringLayout.NORTH, label, 10, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, label, 122, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, label, -260, SpringLayout.SOUTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, label, -137, SpringLayout.EAST, contentPane);
+		contentPane.add(label);
+		
+		JButton btn1 = new JButton("View Employee");
+		sl_contentPane.putConstraint(SpringLayout.NORTH, btn1, 200, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, btn1, 3, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, btn1, -450, SpringLayout.SOUTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, btn1, -850, SpringLayout.EAST, contentPane);
+		contentPane.add(btn1);
+		btn1.addActionListener(e -> {
+		    // Open the new page
+		    ViewEmployee viewPage = new ViewEmployee();
+		    viewPage.setVisible(true);
+
+		    // Optionally hide or close the current page
+		    //Home.this.dispose();  // Closes the current window
+		    // or
+		     Home.this.setVisible(false);  // Hides the current window
+		});
+		
+		JButton btn2 = new JButton("View Emo By ID");
+		sl_contentPane.putConstraint(SpringLayout.NORTH, btn2, 200, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, btn2, 850, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, btn2, -450, SpringLayout.SOUTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, btn2, -3, SpringLayout.EAST, contentPane);
+		contentPane.add(btn2);
+		btn1.addActionListener(e -> {
+		    // Open the new page
+		    ViewEmployeeById v = new ViewEmployeeById();
+		    v.setVisible(true);
+
+		    // Optionally hide or close the current page
+		    //Home.this.dispose();  // Closes the current window
+		    // or
+		     Home.this.setVisible(false);  // Hides the current window
+		});
+		
+		JButton btn3 = new JButton("Add Employee");
+		sl_contentPane.putConstraint(SpringLayout.NORTH, btn3, 200, SpringLayout.NORTH, btn1);
+		sl_contentPane.putConstraint(SpringLayout.WEST, btn3, 3, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, btn3, -250, SpringLayout.SOUTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, btn3, -850, SpringLayout.EAST, contentPane);
+		contentPane.add(btn3);
+		
+		JButton btn4 = new JButton("Remove Employee");
+		sl_contentPane.putConstraint(SpringLayout.NORTH, btn4, 400, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, btn4, 850, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, btn4, -250, SpringLayout.SOUTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, btn4, -3, SpringLayout.EAST, contentPane);
+		contentPane.add(btn4);
+		
+		JButton btnNewButton = new JButton("Update Employee");
+		sl_contentPane.putConstraint(SpringLayout.NORTH, btnNewButton, 600, SpringLayout.NORTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.WEST, btnNewButton, 250, SpringLayout.WEST, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.SOUTH, btnNewButton, -46, SpringLayout.SOUTH, contentPane);
+		sl_contentPane.putConstraint(SpringLayout.EAST, btnNewButton, -250, SpringLayout.EAST, contentPane);
+		contentPane.add(btnNewButton);
+	}
+}
